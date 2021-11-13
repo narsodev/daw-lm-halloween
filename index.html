@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halloween</title>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <main>
+    <audio src="sounds/background.mp3" loop id="background-audio" type="audio/mpeg"></audio>
+
+    <div class="scene menu">
+      <h1>Welcome to your worst nightmare</h1>
+      <form>
+        <label for="name">What is your name?</label>
+        <input type="text" id="name" required placeholder="Name">
+        <button type="submit">Play</button>
+      </form>
+    </div>
+
+    <div class="scene house hidden">
+      <div class="jumpscare" id="jumpscare-1">
+        <div class="activator"></div>
+        <audio src="sounds/jumpscare-1.mp3" type="audio/mpeg"></audio>
+        <img class="hidden" src="images/jumpscare-1.jpg" alt="jumpscare-1">
+        </div>
+      </div>
+      
+    </div>
+    
+    <script src="scripts/main.js"></script>
+  </main>
+</body>
+</html>
