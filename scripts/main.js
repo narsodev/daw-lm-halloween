@@ -1,4 +1,5 @@
 const $ = document.querySelector.bind(document)
+const $$ = document.querySelectorAll.bind(document)
 
 const synth = window.speechSynthesis
 
@@ -57,7 +58,8 @@ const makeJumpscare = (img, audio, onEnd = () => {}) => {
 const scenes = {
   menu: $('.scene.menu'),
   house: $('.scene.house'),
-  hall: $('.scene.hall')
+  hall: $('.scene.hall'),
+  lockedDoor: $('.scene.locked-door')
 }
 
 const nameInput = $('#name')
@@ -112,7 +114,7 @@ const sceneHallObserver = new MutationObserver(() => {
   sceneHallObserver.disconnect()
 
   speak({
-    text: `She can't see you unless look directly at her.
+    text: `She can't see you unless you look directly at her.
     I am downstairs. I think someone is chasing me.
     Be careful.
     `,
@@ -133,5 +135,49 @@ const sceneHallObserver = new MutationObserver(() => {
       stairsAudio.play()
     })
   }, ({ once: true }))
+
+  const stairs = $$('.door-stairs')
+  stairs.forEach(stair => {
+    stair.addEventListener('click', () => {
+      scenes.hall.classList.toggle('hidden')
+      scenes.lockedDoor.classList.toggle('hidden')
+    })
+  })
 })
 sceneHallObserver.observe(scenes.hall, { attributes: true })
+
+const sceneLockedDoorObserver = new MutationObserver(() => {
+  sceneLockedDoorObserver.disconnect()
+
+  speak({
+    text: `I think I'm behind the door.
+    Can you try to open it?
+    `,
+    onStart: () => {
+      backgroundAudio.volume = 0.5
+    },
+    onEnd: () => {
+      backgroundAudio.volume = 1
+    }
+  })
+
+  const lockedDoorWrapper = $('#locked-door-wrapper')
+  const [activator, audio] = lockedDoorWrapper.children
+  audio.volume = 0.1
+  activator.addEventListener('click', () => {
+    setTimeout(() => {
+      audio.play()
+    }, 2000)
+    speak({
+      text: `Oh no! There's somebody else here.
+      Behind you!
+      It is gonna catch you!
+      `,
+      onEnd: () => {
+        audio.volume = 1
+        scenes.lockedDoor.classList.toggle('hidden')
+      }
+    })
+  })
+})
+sceneLockedDoorObserver.observe(scenes.lockedDoor, { attributes: true })

@@ -141,3 +141,16 @@ h1 {
 #door-stairs-2 {
   left: 410px;
 }
+
+.locked-door {
+  background-image: url("../images/locked-door.jpg");
+}
+
+#locked-door-wrapper .activator{
+  position: absolute;
+  height: 300px;
+  width: 200px;
+  top: 28%;
+  left: 46%;
+  cursor: pointer;
+}
