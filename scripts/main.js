@@ -106,10 +106,10 @@ const sceneHouseObserver = new MutationObserver(() => {
   const textHouse = $('#text-house')
   speak({
     text: `Hi ${playername}.
-    I am trapped in this house.
-    Can you go in and help me escape?
-    I need to find a way out.
-    Try no to look through the windows.
+      I am trapped in this house.
+      Can you come in and help me escape?
+      I need to find a way out.
+      Try no to look through the windows.
     `,
     onStart: () => {
       backgroundAudio.volume = 0.5
@@ -153,8 +153,8 @@ const sceneHallObserver = new MutationObserver(() => {
   const textStairs = $('#text-stairs')
   speak({
     text: `She can't see you unless you look directly at her.
-    I am downstairs. I think someone is chasing me.
-    Be careful.
+      I am downstairs. I think someone's after me.
+      Be careful.
     `,
     onStart: () => {
       backgroundAudio.volume = 0.5
@@ -182,10 +182,10 @@ const sceneLockedDoorObserver = new MutationObserver(() => {
         audio.play()
       }, 2000)
       speak({
-        text: `Oh no! There's somebody else here.
+        text: `Oh no! There's someone else here.
           Behind you!
-          It is gonna catch you!
-          You are going to die.
+          He is going to get you!
+          You're going to die.
         `,
         onEnd: () => {
           audio.volume = 1
