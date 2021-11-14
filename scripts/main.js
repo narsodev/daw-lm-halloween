@@ -42,7 +42,7 @@ let playername
 const backgroundAudio = $('#background-audio')
 backgroundAudio.currentTime = 2
 
-const makeJumpscare = (img, audio) => {
+const makeJumpscare = (img, audio, onEnd = () => {}) => {
   img.classList.toggle('hidden')
 
   audio.currentTime = 1
@@ -50,6 +50,7 @@ const makeJumpscare = (img, audio) => {
 
   audio.addEventListener('ended', () => {
     img.classList.toggle('hidden')
+    onEnd()
   })
 }
 
@@ -109,5 +110,28 @@ sceneHouseObserver.observe(scenes.house, { attributes: true })
 
 const sceneHallObserver = new MutationObserver(() => {
   sceneHallObserver.disconnect()
+
+  speak({
+    text: `She can't see you unless look directly at her.
+    I am downstairs. I think someone is chasing me.
+    Be careful.
+    `,
+    onStart: () => {
+      backgroundAudio.volume = 0.5
+    },
+    onEnd: () => {
+      backgroundAudio.volume = 1
+    }
+  })
+
+  const jumpscare = $('#jumpscare-2')
+  const [activator, audio, img, stairsAudio] = jumpscare.children
+  audio.volume = 0.8
+  activator.addEventListener('mouseover', () => {
+    makeJumpscare(img, audio, () => {
+      jumpscare.classList.toggle('hidden')
+      stairsAudio.play()
+    })
+  }, ({ once: true }))
 })
 sceneHallObserver.observe(scenes.hall, { attributes: true })

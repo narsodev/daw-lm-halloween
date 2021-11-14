@@ -37,6 +37,8 @@ h1 {
 .jumpscare img {
   height: 100%;
   width: 100%;
+  position: absolute;
+  z-index: 20;
 }
 
 .scene {
@@ -101,10 +103,41 @@ h1 {
 
 #door {
   position: absolute;
-  border: 1px solid #fff;
   height: 55px;
   width: 48px;
   right: 368px;
   bottom: 150px;
   cursor: pointer;
+}
+
+.hall {
+  background-image: url("../images/hall.jpg");
+}
+
+#jumpscare-2 .activator {
+  width: 60px;
+  height: 140px;
+  position: absolute;
+  top: 38%;
+  left: 570px;
+  background-image: url("../images/jumpscare-2-activator.png");
+  background-position: center;
+  background-size: cover;
+  z-index: 3;
+}
+
+.door-stairs {
+  position: absolute;
+  height: 90px;
+  width: 55px;
+  bottom: 175px;
+  cursor: pointer;
+}
+
+#door-stairs-1 {
+  right: 410px;
+}
+
+#door-stairs-2 {
+  left: 410px;
 }
