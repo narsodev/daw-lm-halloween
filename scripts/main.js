@@ -82,6 +82,28 @@ const sceneHouseObserver = new MutationObserver(() => {
   backgroundAudio.volume = 0.5
   backgroundAudio.play()
 
+  const onEnd = () => {
+    backgroundAudio.volume = 1
+    textHouse.classList.toggle('hidden')
+
+    const jumpscare = $('#jumpscare-1')
+    const [activator, audio, img, windowsText] = jumpscare.children
+
+    windowsText.classList.toggle('hidden')
+
+    activator.addEventListener('mouseover', () => {
+      makeJumpscare(img, audio)
+      windowsText.classList.toggle('hidden')
+    }, ({ once: true }))
+
+    const door = $('#door')
+    door.addEventListener('click', () => {
+      scenes.house.classList.toggle('hidden')
+      scenes.hall.classList.toggle('hidden')
+    })
+  }
+
+  const textHouse = $('#text-house')
   speak({
     text: `Hi ${playername}.
     I am trapped in this house.
@@ -92,21 +114,7 @@ const sceneHouseObserver = new MutationObserver(() => {
     onStart: () => {
       backgroundAudio.volume = 0.5
     },
-    onEnd: () => {
-      backgroundAudio.volume = 1
-    }
-  })
-
-  const jumpscare = $('#jumpscare-1')
-  const [activator, audio, img] = jumpscare.children
-  activator.addEventListener('mouseover', () => {
-    makeJumpscare(img, audio)
-  }, ({ once: true }))
-
-  const door = $('#door')
-  door.addEventListener('click', () => {
-    scenes.house.classList.toggle('hidden')
-    scenes.hall.classList.toggle('hidden')
+    onEnd
   })
 })
 sceneHouseObserver.observe(scenes.house, { attributes: true })
@@ -114,6 +122,35 @@ sceneHouseObserver.observe(scenes.house, { attributes: true })
 const sceneHallObserver = new MutationObserver(() => {
   sceneHallObserver.disconnect()
 
+  const onEnd = () => {
+    backgroundAudio.volume = 1
+    textStairs.classList.toggle('hidden')
+
+    const jumpscare = $('#jumpscare-2')
+    const [activator, audio, img, stairsAudio, activatorText] = jumpscare.children
+
+    activatorText.classList.toggle('hidden')
+
+    audio.volume = 0.8
+
+    activator.addEventListener('mouseover', () => {
+      makeJumpscare(img, audio, () => {
+        jumpscare.classList.toggle('hidden')
+        stairsAudio.play()
+        if (!activatorText.classList.contains('hidden')) activatorText.classList.toggle('hidden')
+      })
+    }, ({ once: true }))
+
+    const stairs = $$('.door-stairs')
+    stairs.forEach(stair => {
+      stair.addEventListener('click', () => {
+        scenes.hall.classList.toggle('hidden')
+        scenes.lockedDoor.classList.toggle('hidden')
+      })
+    })
+  }
+
+  const textStairs = $('#text-stairs')
   speak({
     text: `She can't see you unless you look directly at her.
     I am downstairs. I think someone is chasing me.
@@ -122,33 +159,42 @@ const sceneHallObserver = new MutationObserver(() => {
     onStart: () => {
       backgroundAudio.volume = 0.5
     },
-    onEnd: () => {
-      backgroundAudio.volume = 1
-    }
-  })
-
-  const jumpscare = $('#jumpscare-2')
-  const [activator, audio, img, stairsAudio] = jumpscare.children
-  audio.volume = 0.8
-  activator.addEventListener('mouseover', () => {
-    makeJumpscare(img, audio, () => {
-      jumpscare.classList.toggle('hidden')
-      stairsAudio.play()
-    })
-  }, ({ once: true }))
-
-  const stairs = $$('.door-stairs')
-  stairs.forEach(stair => {
-    stair.addEventListener('click', () => {
-      scenes.hall.classList.toggle('hidden')
-      scenes.lockedDoor.classList.toggle('hidden')
-    })
+    onEnd
   })
 })
 sceneHallObserver.observe(scenes.hall, { attributes: true })
 
 const sceneLockedDoorObserver = new MutationObserver(() => {
   sceneLockedDoorObserver.disconnect()
+
+  const onEnd = () => {
+    backgroundAudio.volume = 1
+    const lockedDoorWrapper = $('#locked-door-wrapper')
+    const [activator, audio, doorActivatorText] = lockedDoorWrapper.children
+    doorActivatorText.classList.toggle('hidden')
+
+    audio.volume = 0.05
+
+    activator.addEventListener('click', () => {
+      doorActivatorText.classList.toggle('hidden')
+
+      setTimeout(() => {
+        audio.play()
+      }, 2000)
+      speak({
+        text: `Oh no! There's somebody else here.
+          Behind you!
+          It is gonna catch you!
+          You are going to die.
+        `,
+        onEnd: () => {
+          audio.volume = 1
+          scenes.lockedDoor.classList.toggle('hidden')
+          scenes.end.classList.toggle('hidden')
+        }
+      })
+    }, { once: true })
+  }
 
   speak({
     text: `I think I'm behind the door.
@@ -157,29 +203,7 @@ const sceneLockedDoorObserver = new MutationObserver(() => {
     onStart: () => {
       backgroundAudio.volume = 0.5
     },
-    onEnd: () => {
-      backgroundAudio.volume = 1
-    }
-  })
-
-  const lockedDoorWrapper = $('#locked-door-wrapper')
-  const [activator, audio] = lockedDoorWrapper.children
-  audio.volume = 0.1
-  activator.addEventListener('click', () => {
-    setTimeout(() => {
-      audio.play()
-    }, 2000)
-    speak({
-      text: `Oh no! There's somebody else here.
-      Behind you!
-      It is gonna catch you!
-      `,
-      onEnd: () => {
-        audio.volume = 1
-        scenes.lockedDoor.classList.toggle('hidden')
-        scenes.end.classList.toggle('hidden')
-      }
-    })
+    onEnd
   })
 })
 sceneLockedDoorObserver.observe(scenes.lockedDoor, { attributes: true })
