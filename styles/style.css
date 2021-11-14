@@ -16,7 +16,6 @@ body {
 main {
   width: 1200px;
   height: 600px;
-  position: relative;
 }
 
 h1 {
@@ -46,6 +45,7 @@ h1 {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  position: relative;
 }
 
 .menu {
@@ -97,4 +97,14 @@ h1 {
   position: absolute;
   top: 35%;
   left: 500px;
+}
+
+#door {
+  position: absolute;
+  border: 1px solid #fff;
+  height: 55px;
+  width: 48px;
+  right: 368px;
+  bottom: 150px;
+  cursor: pointer;
 }
