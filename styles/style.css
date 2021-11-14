@@ -154,3 +154,12 @@ h1 {
   left: 46%;
   cursor: pointer;
 }
+
+.end {
+  display: grid;
+  place-content: center;
+}
+
+.end h1 {
+  font-size: 8rem;
+}

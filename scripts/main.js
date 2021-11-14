@@ -59,7 +59,8 @@ const scenes = {
   menu: $('.scene.menu'),
   house: $('.scene.house'),
   hall: $('.scene.hall'),
-  lockedDoor: $('.scene.locked-door')
+  lockedDoor: $('.scene.locked-door'),
+  end: $('.scene.end')
 }
 
 const nameInput = $('#name')
@@ -176,6 +177,7 @@ const sceneLockedDoorObserver = new MutationObserver(() => {
       onEnd: () => {
         audio.volume = 1
         scenes.lockedDoor.classList.toggle('hidden')
+        scenes.end.classList.toggle('hidden')
       }
     })
   })
