@@ -107,7 +107,7 @@ const sceneHouseObserver = new MutationObserver(() => {
   speak({
     text: `Hi ${playername}.
       I am trapped in this house.
-      Can you come in and help me escape?
+      Can you come into and help me escape?
       I need to find a way out.
       Try no to look through the windows.
     `,
